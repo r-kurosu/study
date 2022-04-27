@@ -13,10 +13,10 @@ def main():
     df.head()
     print(df.head())
 
-    X = df[["density", "volatile acidity"]]
+    X = df[["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "sulphates", "alcohol"]]
     X1 = df[["density"]]
     X2 = df[["volatile acidity"]]
-    Y = df[["alcohol"]]
+    Y = df[["quality"]]
 
     # fig = plt.figure()
     # ax = Axes3D(fig)
