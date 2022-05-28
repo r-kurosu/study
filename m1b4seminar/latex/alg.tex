@@ -1,0 +1,65 @@
+\documentclass[a4paper,10pt,dvipdfmx]{jsarticle}
+
+\usepackage{latexsym,amsmath,amssymb} % 数式関連. とりあえず入れとく 
+\usepackage{graphicx} % includegraphics に必要
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\algrenewcommand\algorithmicrequire{\textbf{入力:}} 
+\algrenewcommand\algorithmicensure{\textbf{出力:}}
+
+
+\begin{document}
+
+\begin{algorithm}[htbp]
+    \caption{ユークリッドの互除法}
+    \label{algo1}
+    \begin{algorithmic}[1]
+    \Require 自然数$a,b \in \mathbb{Z_+} \ \backslash\  \{0\}$
+    \Ensure $a,b$の最大公約数
+    \State $c \leftarrow a\%b$; 
+    \While {$c \neq 0$}
+        \State  $a \leftarrow b$;
+        \State  $b \leftarrow c$;
+        \State  $c \leftarrow a\%b$;
+    \EndWhile{;}
+    \State 現在の$b$を, 元の$a,b$の最大公約数として出力
+    \end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}[htbp]
+    \caption{挿入ソート}
+    \label{algo2}
+    \begin{algorithmic}[1]
+    \Require $n$個の実数$A[0],A[1],\dots,A[n-1] \in \mathbb{R}$
+    \Ensure $A[0],A[1],\dots,A[n-1]$を昇順に整列した系列
+    \For {$i \leftarrow 1,2,\dots,n-1$}
+        \State  $j \leftarrow i-1$;
+        \State  \textit{key} $ \leftarrow A[i]$;
+        \While{$A[j] > $ \textit{key}}
+            \State $A[j+1] \leftarrow A[j]$;
+            \State $j \leftarrow f-1$
+            \If{$j = -1 $}
+                \State break
+            \EndIf
+        \EndWhile{;}
+        \State $A[j+1] \leftarrow $ \textit{key}
+    \EndFor{;}
+    \State $A[0],A[1],\dots,A[n-1]$を出力
+    \end{algorithmic}
+\end{algorithm}
+
+
+% \ref{algo1}
+% \ref{algo2}
+
+\begin{thebibliography}{100}
+    \bibitem{} 最適花子, 数理太郎, 最適化入門, 大手出版社, 2021. 
+    \bibitem{} 数理太郎，数理二郎．〇〇問題に対する分枝限定法．某学会論文誌，\textbf{8}, pp.~23-34~(2019).
+    \bibitem{} T. Yamada, N. Aoki and M. Marukami. Which criteria evaluate baseball players most appropriately? \textit{Journal of Sport Managiment}, \textbf{23}, pp.~123-456~(2012).
+\end{thebibliography}
+
+\end{document}
+
+

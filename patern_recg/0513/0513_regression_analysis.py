@@ -8,8 +8,9 @@ from sklearn.linear_model import LinearRegression, Lasso
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import r2_score
+import sklearn.gaussian_process as gp
 
-sns.set()  # seabornのスタイルをセット
+sns.set()
 
 
 def linear_regression(X_train, Y_train, X_test, Y_test):
@@ -17,6 +18,7 @@ def linear_regression(X_train, Y_train, X_test, Y_test):
     model_linear = LinearRegression()
     model_linear.fit(X_train, Y_train)
 
+    print(X_train, Y_train)
     print(f"---linear regression---")
     print(f'train_score: {model_linear.score(X_train, Y_train)}')
     print(f'test_score: {model_linear.score(X_test, Y_test)}')
@@ -26,16 +28,14 @@ def linear_regression(X_train, Y_train, X_test, Y_test):
 
     plot_func(Y_train, Y_train_pred, Y_test, Y_test_pred)
 
-    print(r2_score(Y_train, Y_train_pred))
-    print(r2_score(Y_test, Y_test_pred))
-
+    # calc_coefficients(X_test, Y_test, model_linear)
 
     return
 
 
 def polynomial_regression(X_train, Y_train, X_test, Y_test, X, Y):
     # 多項式を基底関数として重回帰
-    for deg in range(1, 7):
+    for deg in range(1, 10):
         model_poly = Pipeline([
             ('poly', PolynomialFeatures(degree=deg)),
             ('linear', LinearRegression())
@@ -48,31 +48,10 @@ def polynomial_regression(X_train, Y_train, X_test, Y_test, X, Y):
         Y_train_pred = model_poly.predict(X_train)
         Y_test_pred = model_poly.predict(X_test)
 
+        fig = plt.figure()
         plot_func(Y_train, Y_train_pred, Y_test, Y_test_pred)
-
-
-    return
-
-
-# 多項式基底関数を作成
-def phi_polynomial(x, j):
-
-    return x**j
-
-
-# 多項式基底関数の計画行列を作成:(M > 2)
-def Phi_polynomial(x_n, M, _x_n=None):
-    # 変数を初期化
-    phi_x_nm = np.ones((len(x_n), M))
-
-    # 列ごとに多項式基底関数による変換
-    for m in range(1, M):
-        phi_x_nm[:, m] = phi_polynomial(x_n, m)
-    return phi_x_nm
-
-
-def linear_regression_gousian():
-    # 基底関数としてガウスを適用
+        fig.savefig(f"img_quality_n={deg}.png")
+        # fig.savefig(f"img_alcohol_n={deg}.png")
 
     return
 
@@ -89,7 +68,9 @@ def lasso_regression(X_train, Y_train, X_test, Y_test):
         Y_train_pred = lasso_model.predict(X_train)
         Y_test_pred = lasso_model.predict(X_test)
 
-        # plot_func(Y_train, Y_train_pred, Y_test, Y_test_pred)
+        fig = plt.figure()
+        plot_func(Y_train, Y_train_pred, Y_test, Y_test_pred)
+        fig.savefig(f"img.png")
 
     return
 
@@ -109,6 +90,8 @@ def calculate_coer(X, Y):
 
 
 def plot_func(Y_train, Y_train_pred, Y_test, Y_test_pred):
+    # fig = plt.figure()
+
     plt.scatter(Y_train,  # グラフのx値(予測値)
                 Y_train_pred - Y_train,  # グラフのy値(予測値と学習値の差)
                 c='blue',  # プロットの色
@@ -127,43 +110,44 @@ def plot_func(Y_train, Y_train_pred, Y_test, Y_test_pred):
                 label='test data')
 
     # グラフ書式設定
-    y_min = min(Y_train)
-    y_max = max(Y_train)
+    # y_min = min(Y_train)
+    # y_max = max(Y_train)
 
-    plt.xlabel('予測値')
-    plt.ylabel('残差')
-    plt.legend(loc='upper left')
-    plt.hlines(y=0, xmin=0, xmax=10, lw=2, color='black')
+    # plt.xlabel('予測値')
+    # plt.ylabel('残差')
+    # plt.legend(loc='upper left')
+    plt.hlines(y=0, xmin=0, xmax=15, lw=2, color='black')
     # plt.xlim([-20, 60])
     # plt.ylim([y_min, y_max])
     plt.tight_layout()
     plt.show()
+
+    # fig.savefig(f"img.png")
 
     return
 
 
 def main():
     df = pd.read_csv("winequality-red.csv", sep=";")
-    df.head()
-    # print(df.head())
 
     X = df[["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "sulphates", "alcohol"]]
     # X = df[["volatile acidity", "density"]]
     Y = df[["quality"]]
     # Y = df[["alcohol"]]
 
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_state=0)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
 
     # 相関係数を計算
     # calculate_coer(X, Y)
 
     # 実行
     # linear_regression(X_train, Y_train, X_test, Y_test)
-    # polynomial_regression(X_train, Y_train, X_test, Y_test, X, Y)
-    lasso_regression(X_train, Y_train, X_test, Y_test)
+    polynomial_regression(X_train, Y_train, X_test, Y_test, X, Y)
+    # lasso_regression(X_train, Y_train, X_test, Y_test)
 
 
     return
+
 
 if __name__ == "__main__":
     main()

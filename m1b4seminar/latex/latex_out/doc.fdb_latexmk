@@ -1,0 +1,11 @@
+# Fdb version 3
+["dvipdf"] 0 "latex_out/doc.dvi" "latex_out/doc.pdf" "latex_out/doc" 0
+  "latex_out/doc.dvi" 0 -1 0 "latex"
+  (generated)
+  "latex_out/doc.pdf"
+["latex"] 0 "/Users/kurosuryou/study/m1b4seminar/doc.tex" "latex_out/doc.dvi" "doc" 0
+  "/Users/kurosuryou/study/m1b4seminar/doc.tex" 0 -1 0 ""
+  "latex_out/doc.aux" 1652916591 32 3985256e7290058c681f74d7a3565a19 ""
+  (generated)
+  "latex_out/doc.dvi"
+  "latex_out/doc.log"
