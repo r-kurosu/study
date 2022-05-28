@@ -2,10 +2,9 @@ import pulp
 
 CPLEX_PATH = "/Applications/CPLEX_Studio221/cplex/bin/x86-64_osx/cplex"
 
+n = 4
 
-K = 4
-
-def suudoku(n, A):
+def suudoku(n):
     model = pulp.LpProblem("suudoku", pulp.LpMaximize)
     
     # 変数定義
