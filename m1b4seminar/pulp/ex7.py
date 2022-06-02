@@ -2,8 +2,9 @@ import pulp
 
 CPLEX_PATH = "/Applications/CPLEX_Studio221/cplex/bin/x86-64_osx/cplex"
 
-K = 3
-
+K = 4 # 彩色数
+n = 3 # 頂点数
+A = [[0,0,0],[0,0,0],[0,0,0]] #隣接行列
 
 def gcp(n, A, K):
     model = pulp.LpProblem("graph coloring problem", pulp.LpMinimize)
@@ -29,3 +30,5 @@ def gcp(n, A, K):
     status = model.solve(pulp.CPLEX(path=CPLEX_PATH))
 
     return
+
+gcp(n, A, K)
