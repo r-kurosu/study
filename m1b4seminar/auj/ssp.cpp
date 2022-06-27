@@ -32,7 +32,7 @@ int main(){
                 update = true;
             }
         }
-        // if (!update) break;
+        if (!update) break;
     }
 
     // output
