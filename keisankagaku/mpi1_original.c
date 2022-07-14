@@ -15,11 +15,11 @@ int main(int argc, char **argv){
     for (i = 0; i < N; i++){
       arr[i] = i * i;
     }
-    MPI_Send(arr, N, MPI_INT, 1, 0, MPI_COMM_WORLD);
+    MPI_Send(???);
   }
 
   if (my_rank == 1){
-    MPI_Recv(arr, N, MPI_INT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    MPI_Recv(???);
     for (i = 0; i < N; i++){
       printf("%d\n",arr[i]);
     }

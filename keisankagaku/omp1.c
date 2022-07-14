@@ -22,17 +22,16 @@ int main(){
   for (k = 1; k < K; k++){
     C[0][k] = 0;
   }
-
-
-
+  
   for (n = 1; n < N; n++)
   {
-    for(k = 1; k < K; k++)
     #pragma omp parallel for
+    for(k = 1; k < K; k++)
     {
       C[n][k] = (C[n-1][k-1] + (long long) C[n-1][k]) % P;
     }
   }
+  
 
   t2 = omp_get_wtime();
 

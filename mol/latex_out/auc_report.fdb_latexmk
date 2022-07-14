@@ -1,0 +1,11 @@
+# Fdb version 3
+["dvipdf"] 0 "latex_out/auc_report.dvi" "latex_out/auc_report.pdf" "latex_out/auc_report" 0
+  "latex_out/auc_report.dvi" 0 -1 0 "latex"
+  (generated)
+  "latex_out/auc_report.pdf"
+["latex"] 0 "/Users/kurosuryou/study/mol/auc_report.tex" "latex_out/auc_report.dvi" "auc_report" 0
+  "/Users/kurosuryou/study/mol/auc_report.tex" 0 -1 0 ""
+  "latex_out/auc_report.aux" 1657181906 32 3985256e7290058c681f74d7a3565a19 ""
+  (generated)
+  "latex_out/auc_report.dvi"
+  "latex_out/auc_report.log"

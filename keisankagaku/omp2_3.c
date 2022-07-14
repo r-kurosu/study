@@ -1,8 +1,8 @@
 #include<stdio.h>
 #include<omp.h>
 
-// #define N 10000000000LL
-#define N 1000000000000LL
+#define N 10000000000LL
+// #define N 1000000000000LL
 
 int main(){
 
@@ -12,7 +12,7 @@ int main(){
 
   t1 = omp_get_wtime();
 
-  #pragma omp parallel for
+  #pragma omp parallel for reduction(+:sum)
   for(k = N-1; k > 0; k -= 2){
     sum -= 1.0 / (2*k+1);
     sum += 1.0 / (2*k-1);

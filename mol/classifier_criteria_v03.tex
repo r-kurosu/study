@@ -1,0 +1,257 @@
+\documentclass[a4paper,12pt,dvipdfmx]{article}
+%\documentclass[a4paper,10pt]{article}
+%\jtwocolumn
+
+
+\pagestyle{myheadings}\markboth{Classifier Criteria: \today}{Classifier Criteria: \today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% packages
+\usepackage{graphicx}
+\usepackage{epstopdf}
+%\usepackage{tabularx}
+\usepackage{latexsym}
+%\usepackage{pstricks,psfrag}
+\usepackage{amsmath,amssymb}
+%\usepackage{algorithm} %%% for comm. to N-sensei
+%\usepackage{algpseudocode} %%% for comm. to N-sensei
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage{tikz}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% newcommand
+%\renewcommand{\mid}{:~}
+\newcommand{\secref}[1]{Section~\ref{sec:#1}}
+\newcommand{\tabref}[1]{Table~\ref{tab:#1}}
+\newcommand{\figref}[1]{Figure~\ref{fig:#1}}
+\newcommand{\corref}[1]{Corollary~\ref{cor:#1}}
+\newcommand{\lemref}[1]{Lemma~\ref{lem:#1}}
+\newcommand{\propref}[1]{Proposition~\ref{prop:#1}}
+\newcommand{\thmref}[1]{Theorem~\ref{thm:#1}}
+
+\newcommand{\vc}[1]{\mbox{\boldmath$ #1 $}}
+\newcommand{\myhline}{
+  \noindent
+  \begin{tabular}{p{0.97\textwidth}}
+    \\\hline
+\end{tabular}}
+\newcommand{\tab}{\hspace*{1em}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% newtheorem
+\newtheorem{cor}{Corollary}
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{thm}{Theorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% newenvironment
+\newenvironment{proof}{\medskip
+  \noindent{\scshape Proof:}}{\quad $\Box$\medskip}
+
+\newenvironment{myframe}{\begin{trivlist}\item[]
+    \hrule
+    \hbox to \linewidth\bgroup
+    \advance\linewidth by -30pt
+    \hsize=\linewidth
+    \vrule\hfill
+    \vbox\bgroup
+    \vskip15pt
+    \def\thempfootnote{\arabic{mpfootnote}}
+    \begin{minipage}{\linewidth}}{%
+    \end{minipage}\vskip15pt
+    \egroup\hfill\vrule
+    \egroup\hrule
+\end{trivlist}}
+
+\long\def\invis#1{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% style definitions
+%
+% following setting makes 3cm spaces for top and bottom, and
+% 2.5cm spaces for left and right
+%
+% default setting
+\setlength{\oddsidemargin}{22pt}         % 62pt
+\setlength{\evensidemargin}{22pt}        % 62pt
+\setlength{\headheight}{12pt}            % 12pt
+\setlength{\textheight}{662pt}           % 592pt
+\setlength{\marginparsep}{10pt}          % 10pt
+\setlength{\footskip}{30pt}              % 30pt
+\setlength{\hoffset}{-13pt}              % 0pt
+\setlength{\paperwidth}{597pt}           % 597pt
+\setlength{\topmargin}{20pt}             % 20pt
+\setlength{\headsep}{25pt}               % 25pt
+\setlength{\textwidth}{427pt}            % 327pt
+\setlength{\marginparwidth}{106pt}       % 106pt
+\setlength{\marginparpush}{5pt}          % 5pt
+\setlength{\voffset}{-37pt}              % 0pt
+\setlength{\paperheight}{845pt}          % 845pt
+
+
+% 1 inch = 2.54 cm = 72.27 pt
+
+\renewcommand{\baselinestretch}{1.20}
+% \setlength{\columnsep}{1.0cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% title information
+\title{}
+\author{}
+\date{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% document
+\begin{document}
+\section{Criteria of Learning Performance of A Classier}
+
+Suppose that we are given a data set $D=\{(x_1,a_1),(x_2,a_2),\dots,(x_m,a_m)\}$ such that $x_i\in\mathbb{R}^K$ and $a_i\in\{0,1\}$, $i=1,2,\dots,m$,
+where we call $a_i$ the {\em class of $x_i$}.
+A feature vector $x_i$ with $a_i=1$ (resp., 0) is called
+{\em positive} (resp., negative). 
+We call a function $\eta:\mathbb{R}^K\to\{0,1\}$
+that estimates the class of a feature vector a {\em classifier}. 
+
+There are various criteria to evaluate the learning performance of a classifier.
+We summarize some of them. 
+
+\subsection{Accuracy Based Criteria}
+Let us partition the data set $D$
+into $D=D_1\cup D_0$,
+where $D_1$ (resp., $D_0$)
+is the set of all positive (resp., negative) feature vectors in $D$. 
+%
+For a classifier $\eta$,
+a feature vector $x_i\in D$ is called
+\begin{itemize}
+\item {\em true positive} if $a_i=1$ and $\eta(x_i)=1$;
+\item {\em true negative} if $a_i=0$ and $\eta(x_i)=0$;
+\item {\em false positive} if $a_i=0$ and $\eta(x_i)=1$; and
+\item {\em false negative} if $a_i=1$ and $\eta(x_i)=0$. 
+\end{itemize}
+We denote by $\textrm{TP}(\eta;D)$/$\textrm{TN}(\eta;D)$/$\textrm{FP}(\eta;D)$/$\textrm{FN}(\eta;D)$
+the sets of true positive/true negative/false positive/false negative
+feature vectors, respectively.
+We define $\textrm{TPR}(\eta;D)$,
+$\textrm{TNR}(\eta;D)$,
+$\textrm{FPR}(\eta;D)$ and $\textrm{FNR}(\eta;D)$ as follows;
+\begin{align*}
+  &\textrm{TPR}(\eta;D)\triangleq\frac{\textrm{TP}(\eta;D)}{|D_1|};\ \ 
+  \textrm{TNR}(\eta;D)\triangleq\frac{\textrm{TN}(\eta;D)}{|D_0|};\\
+  &\textrm{FPR}(\eta;D)\triangleq\frac{\textrm{FP}(\eta;D)}{|D_0|};\ \ 
+  \textrm{FNR}(\eta;D)\triangleq\frac{\textrm{FN}(\eta;D)}{|D_1|}.
+\end{align*}
+It holds that $\textrm{TPR}(\eta;D)+\textrm{FNR}(\eta;D)=\textrm{TNR}(\eta;D)+\textrm{FPR}(\eta;D)=1$. 
+%
+The {\em accuracy} $\textrm{ACC}(\eta;D)$ is defined to be:
+\[
+\textrm{ACC}(\eta;D)\triangleq\frac{\textrm{TP}(\eta;D)+\textrm{TN}(\eta;D)}{|D|}.
+\]
+The {\em balanced accuracy} $\textrm{B-ACC}(\eta;D)$ is defined to be:
+\[
+\textrm{B-ACC}(\eta;D)\triangleq\frac{1}{2}(\textrm{TPR}(\eta;D)+\textrm{TNR}(\eta;D)).
+\]
+
+\subsection{ROC Curve and AUC}
+Let $f:\mathbb{R}^K\to\mathbb{R}$ be a function and $\theta\in\mathbb{R}$ be a real number.
+We construct a classifier $\eta_{f,\theta}:\mathbb{R}^K\to\{0,1\}$ as follows; for $x\in\mathbb{R}^K$,
+\[
+\eta_{f,\theta}(x)\triangleq\left\{
+\begin{array}{ll}
+  1 & \textrm{if\ }f(x)\ge\theta,\\
+  0 & \textrm{otherwise}.
+\end{array}
+\right.
+\]
+Suppose that $x_1,x_2,\dots,x_m$ are sorted
+so that $f(x_1)\le f(x_2)\le\dots\le f(x_m)$ holds. 
+For $i=1,\dots,m-1$, let us define
+\[
+\theta_i\triangleq\frac{f(x_i)+f(x_{i+1})}{2},
+\]
+where we let $\theta_0\triangleq f(x_1)-\varepsilon$ and
+$\theta_m\triangleq f(x_m)+\varepsilon$ for a small constant $\varepsilon\in\mathbb{R}_+\setminus\{0\}$.
+
+We have $m+1$ classifiers $\eta_{f,\theta_0},\eta_{f,\theta_1},\dots,\eta_{f,\theta_m}$. Let us denote a 2D point $p_i\triangleq(\textrm{FPR}(\eta_{f,\theta_i};D),\textrm{TPR}(\eta_{f,\theta_i};D))$, $i=0,1,\dots,m$. 
+Observe that $p_0=(1,1)$ holds since $\eta_{f,\theta_0}(x)=1$ holds
+for all $x\in D$,  and that
+$p_m=(0,0)$ holds since $\eta_{f,\theta_m}(x)=0$ holds
+for all $x\in D$.
+Also we have;
+\begin{align*}
+  &\textrm{FPR}(\eta_{f,\theta_m};D)=0\le\textrm{FPR}(\eta_{f,\theta_{m-1}};D) \le\dots\le\textrm{FPR}(\eta_{f,\theta_0};D)=1;\\
+  &\textrm{TPR}(\eta_{f,\theta_m};D)=0\le\textrm{TPR}(\eta_{f,\theta_{m-1}};D) \le\dots\le\textrm{TPR}(\eta_{f,\theta_0};D)=1.
+\end{align*}
+The {\em Receiver Operating Characteristic curve} ({\em ROC curve}) {\em of $f$}
+is a set of $m$ line segments $(p_m=(0,0),p_{m-1}),(p_{m-1},p_{m-2}),\dots,(p_1,p_0=(1,1))$.
+The {\em Area Under Curve} ({\em AUC}) {\em of $f$},
+which we denote by $\textrm{AUC}(f;D)$,
+is defined to be the area between the ROC curve and the x-axis.
+Hence we have $0\le\textrm{AUC}(f;D)\le1$. 
+
+\begin{lem}
+  \label{lem:auc}
+  Suppose that we are given a data set $D=\{(x_1,a_1),(x_2,a_2),\dots,(x_m,a_m)\}$ such that $x_i\in\mathbb{R}^K$ and $a_i\in\{0,1\}$, $i=1,2,\dots,m$, and a function $f:\mathbb{R}^K\to R$, where $R\subseteq\mathbb{R}$.
+  If $R=\{0,1\}$, then
+  it holds that $\textrm{AUC}(f;D)=\textrm{B-ACC}(f;D)$. 
+\end{lem}
+\begin{proof}
+  We see that the ROC of $f$ consists of
+  three points, that is $(0,0)$, $(\mathrm{FPR}(f;D),\mathrm{TPR}(f;D))$ and $(1,1)$.
+  Let $p:=\mathrm{FPR}(f;D)=1-\mathrm{TNR}(f;D)$
+  and $q:=\mathrm{TPR}(f;D)$.
+  Then we have
+  \begin{align*}
+    \textrm{AUC}(f;D) &= \frac{1}{2}pq + \frac{1}{2}(q+1)(1-p)\\
+    &=\frac{1}{2}(pq+q+1-pq-p)\\
+    &=\frac{1}{2}(1-p+q)\\
+    &=\frac{1}{2}(\mathrm{TNR}(f;D) + \mathrm{TPR}(f;D))\\
+    &=\textrm{B-ACC}(f;D). 
+  \end{align*}
+  \hfill
+\end{proof}
+
+\figref{auc} illustrates the ROC of $f$
+in \lemref{auc}. 
+
+\begin{figure}[h]
+  \label{fig:auc}
+  \centering
+  \begin{tikzpicture}
+  \label{roc}
+  % 軸
+  \draw[-stealth](-3,-3)--(-3,6)node[left]{TPR};
+  \draw[-stealth](-3,-3)--(6,-3)node[below]{FPR};
+  \draw(-3,-3)node[below left]{O};
+  
+  % 直線
+  \draw (-3,-3)--(0,1.5);
+  \draw (0,1.5)--(3,3);
+
+  % 点線
+  \draw[dashed](-3,3)--(3,3);
+  \draw[dashed](3,3)--(3,-3);
+  
+  % 点線 (交点)
+  \draw[dashed](-3,1.5)--(0,1.5);
+  \draw[dashed](0,1.5)--(0,-3);
+
+
+  % ラベル
+  \draw(-3,3)--(-3,3)node[left]{$1$};
+  \draw(3,-3)--(3,-3)node[below]{$1$};
+  
+  \draw(-3,1.5)--(-3,1.5)node[left]{$q$};
+  \draw(0,-3)--(0,-3)node[below]{$p$};
+
+  \end{tikzpicture}
+  \end{figure}
+
+
+
+
+\end{document}
+
